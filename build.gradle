@@ -1,0 +1,51 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    repositories {
+        google()
+        jcenter()
+        
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.5.2'
+        
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+
+    ext.buildConfig = [
+        'compileSdk':        29,
+        'minSdk':            19,
+        'targetSdk':         29,
+        'buildToolsVersion': '29.0.2',
+        'versionCode':       1,
+        'versionName':       '1.0.0',
+    ]
+
+    ext.versions = [
+        'appcompat':   '1.1.0', // androidx
+        'junit':       '4.12',
+        'junitTest':   '1.1.1',
+        'espresso':    '3.2.0',
+    ]
+
+    def repo = new File(rootDir, "repository")
+    ext.pomValue = [
+        'repositoryUrl': "file://${repo.absolutePath}",
+        'version':       buildConfig.versionName,
+        'groupId':       'jp.co.model.tkato',
+        'artifactId':    'basedialog_module',
+    ]
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

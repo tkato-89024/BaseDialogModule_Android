@@ -1,0 +1,84 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion buildConfig.compileSdk
+    buildToolsVersion buildConfig.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion             buildConfig.minSdk
+        targetSdkVersion          buildConfig.targetSdk
+        versionCode               buildConfig.versionCode
+        versionName               buildConfig.versionName
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    buildTypes {
+        release {
+            // ライブラリのため、難読化解除
+            // minifyEnabled true
+            // proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    // 作成したaar内のclasses.jarに画像ファイルを含める必要がなければこれで除外
+    packagingOptions {
+        exclude 'assets/*'
+    }
+
+    // region modify aar name
+
+    libraryVariants.all { variant ->
+        variant.outputs.all {
+
+            def str = outputFileName.toString()
+            def idx = str.indexOf("-${variant.name}")
+
+            def moduleName = str.substring(0, idx)
+
+            def suffix
+            if (variant.name == android.buildTypes.release.name) {
+                suffix = "-${android.defaultConfig.versionName}.aar"
+            } else {
+                suffix = "-${variant.name}-${android.defaultConfig.versionName}.aar"
+            }
+
+            outputFileName = "${moduleName}${suffix}"
+        }
+    }
+
+    // endregion modify aar name
+}
+
+dependencies {
+    // https://qiita.com/darquro/items/5fceff5cdfbad72e83cb
+    compileOnly fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation ("androidx.appcompat:appcompat:${versions.appcompat}")
+    testImplementation ("junit:junit:${versions.junit}")
+    androidTestImplementation ("androidx.test.ext:junit:${versions.junitTest}")
+    androidTestImplementation ("androidx.test.espresso:espresso-core:${versions.espresso}")
+}
+
+// region maven repositories
+
+apply plugin: 'maven'
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository url:  pomValue.repositoryUrl
+            pom.version    = pomValue.version
+            pom.groupId    = pomValue.groupId
+            pom.artifactId = pomValue.artifactId
+        }
+    }
+}
+
+// endregion maven repositories
