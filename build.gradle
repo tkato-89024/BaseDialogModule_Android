@@ -34,7 +34,7 @@ buildscript {
         'repositoryUrl': "file://${repo.absolutePath}",
         'version':       buildConfig.versionName,
         'groupId':       'jp.co.model.tkato',
-        'artifactId':    'basedialog_module',
+        'artifactId':    'basedialog-module',
     ]
 }
 

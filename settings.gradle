@@ -1,2 +1,2 @@
-include ':basedialog_module'
+include ':basedialog-module'
 rootProject.name='BaseDialogModule'
