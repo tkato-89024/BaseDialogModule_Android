@@ -68,6 +68,9 @@ dependencies {
 
 // region maven repositories
 
+// Terminal で以下のコマンドを実行して生成
+// $ ./gradlew uploadArchives
+
 apply plugin: 'maven'
 
 uploadArchives {
