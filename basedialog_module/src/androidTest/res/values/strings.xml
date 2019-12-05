@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="android_test_tmp">Tmp</string>
+    <string name="android_test_title">TestTitle</string>
+    <string name="android_test_message">TestMessaage</string>
+    <string name="android_test_button_ok">OK</string>
+    <string name="android_test_button_ng">NG</string>
+    <string name="android_test_button_other">OTHER</string>
+
+</resources>
