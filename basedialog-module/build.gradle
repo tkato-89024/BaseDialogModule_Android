@@ -1,5 +1,7 @@
 apply plugin: 'com.android.library'
 
+import java.util.regex.Pattern
+
 android {
     compileSdkVersion buildConfig.compileSdk
     buildToolsVersion buildConfig.buildToolsVersion
@@ -7,7 +9,7 @@ android {
     defaultConfig {
         minSdkVersion             buildConfig.minSdk
         targetSdkVersion          buildConfig.targetSdk
-        versionCode               buildConfig.versionCode
+        // versionCode               buildConfig.versionCode
         versionName               buildConfig.versionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -31,6 +33,37 @@ android {
     packagingOptions {
         exclude 'assets/*'
     }
+
+    // region versionCode auto increment
+
+    // AndroidManifest に versionCode の記述が必要
+
+    // Debugビルドでエラーが出ないようにReleaseビルドの時のみ上記のタスクを実行
+    tasks.whenTaskAdded { task ->
+        if(task.name == 'uploadArchives') {
+            task.dependsOn 'incrementVersionCode'
+        }
+    }
+
+    task("incrementVersionCode") {
+        doLast {
+            overwriteVersionCode('src/main/AndroidManifest.xml')
+            overwriteVersionCode('src/androidTest/AndroidManifest.xml')
+        }
+    }
+
+    ext.overwriteVersionCode = { path ->
+        def manifestFile = file(path)
+        def manifestText = manifestFile.getText()
+        def pattern = Pattern.compile("versionCode=\"(\\d+)\"")
+        def matcher = pattern.matcher(manifestText)
+        matcher.find()
+        def versionCode = Integer.parseInt(matcher.group(1))
+        def resultManifest = matcher.replaceAll("versionCode=\"" + (++versionCode) + "\"")
+        manifestFile.write(resultManifest)
+    }
+
+    // endregion versionCode auto increment
 
     // region modify aar name
 
