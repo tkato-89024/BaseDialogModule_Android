@@ -16,7 +16,6 @@ import java.util.concurrent.TimeUnit;
 import jp.co.model.tkato.basedialog_module.base.BaseInstrumentedTest;
 import jp.co.model.tkato.basedialog_module.test.R;
 
-import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -82,6 +81,35 @@ public class BaseDialogFragmentTest extends BaseInstrumentedTest {
     @After
     public void tearDown() throws Exception {
         super.tearDown();
+    }
+
+    @SuppressWarnings("all")
+    @Test
+    public void test_getIdentifier_case1_失敗() {
+
+        rule.getScenario().onActivity(activity -> {
+            final BaseDialogFragment dialogFragment = new BaseDialogFragment();
+            assertNull(dialogFragment.getIdentifier());
+        });
+    }
+
+    @SuppressWarnings("all")
+    @Test
+    public void test_getIdentifier_case2_成功() {
+
+        rule.getScenario().onActivity(activity -> {
+
+            IBaseDialogFragment iBaseDialogFragment = BaseDialogFragment
+                .use(activity, dialogSetup_リソースIDで設定)
+            ;
+            assertNotNull(iBaseDialogFragment.getIdentifier());
+
+            iBaseDialogFragment = BaseDialogFragment
+                .use(activity, "90r2ehf", dialogSetup_リソースIDで設定)
+            ;
+            assertNotNull(iBaseDialogFragment.getIdentifier());
+            assertEquals("90r2ehf", iBaseDialogFragment.getIdentifier());
+        });
     }
 
     @SuppressWarnings("all")

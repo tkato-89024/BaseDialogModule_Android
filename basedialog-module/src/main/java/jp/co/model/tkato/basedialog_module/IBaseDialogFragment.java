@@ -7,6 +7,8 @@ import androidx.fragment.app.FragmentActivity;
 @SuppressWarnings({"unused", "UnusedReturnValue"})
 public interface IBaseDialogFragment {
 
+    @NonNull String getIdentifier();
+
     @Nullable IDialogElement getElement();
     IBaseDialogFragment setElement(@NonNull IDialogElement element);
 

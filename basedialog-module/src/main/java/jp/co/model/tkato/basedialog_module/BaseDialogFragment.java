@@ -147,7 +147,10 @@ public class BaseDialogFragment extends DialogFragment implements IBaseDialogFra
     }
 
     public BaseDialogFragment() {
-        // 対策：Unable to instantiate fragment
+        // デフォルトコンストラクタの直接呼び出し禁止
+
+        // このコンストラクタは、以下のエラーの対策用に作成
+        // Unable to instantiate fragment:
         // Fragment には public の空コンストラクタがないと、画面回転時にエラー落ちする
     }
 
@@ -157,6 +160,7 @@ public class BaseDialogFragment extends DialogFragment implements IBaseDialogFra
 
     @SuppressWarnings("WeakerAccess")
     @NonNull
+    @Override
     public String getIdentifier() {
         return identifier;
     }
