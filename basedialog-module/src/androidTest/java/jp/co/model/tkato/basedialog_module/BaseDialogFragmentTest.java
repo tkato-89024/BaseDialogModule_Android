@@ -224,6 +224,7 @@ public class BaseDialogFragmentTest extends BaseInstrumentedTest {
                         new DialogButtonElement("テストスキップ", false, activity_)
                     ));
                 })
+                .setKeyEventListener(activity)
             ;
             fragment.show(activity);
         });

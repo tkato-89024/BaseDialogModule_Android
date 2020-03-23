@@ -1,10 +1,11 @@
 package jp.co.model.tkato.basedialog_module;
 
-import android.content.BroadcastReceiver;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,7 +13,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import java.lang.ref.WeakReference;
 
-public class BaseFragmentDialogTestActivity extends FragmentActivity implements BaseDialogFragment.OnClickListener {
+public class BaseFragmentDialogTestActivity extends FragmentActivity implements BaseDialogFragment.OnClickListener, Dialog.OnKeyListener {
 
     public interface OnRotationListener {
         void notifyRotation(boolean isPortrait);
@@ -59,5 +60,18 @@ public class BaseFragmentDialogTestActivity extends FragmentActivity implements 
         if (null != this.delegateListener.get()) {
             this.delegateListener.get().onClick(this, identifier, listenerType, dialog);
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        Log.v(getClass().getSimpleName(), "onKeyDown = " + keyCode);
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public boolean onKey(DialogInterface dialogInterface, int i, KeyEvent keyEvent) {
+        Log.v(getClass().getSimpleName(), "onKey = " + i);
+        dialogInterface.dismiss();
+        return true;
     }
 }

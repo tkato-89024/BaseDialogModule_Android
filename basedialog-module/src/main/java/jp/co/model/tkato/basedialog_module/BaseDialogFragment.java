@@ -5,6 +5,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
@@ -20,7 +22,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @SuppressWarnings("unused")
-public class BaseDialogFragment extends DialogFragment implements IBaseDialogFragment {
+public class BaseDialogFragment extends DialogFragment implements IBaseDialogFragment, Dialog.OnKeyListener {
 
     // region enum / interface
 
@@ -137,6 +139,14 @@ public class BaseDialogFragment extends DialogFragment implements IBaseDialogFra
     @SuppressWarnings("MismatchedQueryAndUpdateOfCollection") // contents of collection are updated
     @NonNull
     private final Map<String, OnClickListener> listenerMap = new HashMap<>();
+
+    private Dialog.OnKeyListener keyEventListener;
+
+    @Override
+    public IBaseDialogFragment setKeyEventListener(Dialog.OnKeyListener listener) {
+        this.keyEventListener = listener;
+        return this;
+    }
 
     // endregion member
 
@@ -610,7 +620,7 @@ public class BaseDialogFragment extends DialogFragment implements IBaseDialogFra
     private Dialog createDialogSetup(@NonNull final Dialog dialog) {
 
         // DialogFragment 使用の場合、Dialog での setCancelable は効果なし
-//        dialog.setCancelable(false);
+        // dialog.setCancelable(false);
         this.setCancelable(false);
 
         return dialog;
@@ -657,6 +667,8 @@ public class BaseDialogFragment extends DialogFragment implements IBaseDialogFra
         // if (null == dialog) {
         //     return;
         // }
+
+        dialog.setOnKeyListener(this);
 
         final IDialogElement element = getElement();
         if (null == element) {
@@ -813,6 +825,14 @@ public class BaseDialogFragment extends DialogFragment implements IBaseDialogFra
     }
 
     // endregion save instance state
+
+    @Override
+    public boolean onKey(DialogInterface dialogInterface, int i, KeyEvent keyEvent) {
+        if (null != keyEventListener) {
+            keyEventListener.onKey(dialogInterface, i, keyEvent);
+        }
+        return false;
+    }
 
     // endregion lifecycle
 

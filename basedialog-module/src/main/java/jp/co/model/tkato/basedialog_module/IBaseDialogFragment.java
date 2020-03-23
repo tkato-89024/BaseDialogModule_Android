@@ -1,11 +1,16 @@
 package jp.co.model.tkato.basedialog_module;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 
 @SuppressWarnings({"unused", "UnusedReturnValue"})
 public interface IBaseDialogFragment {
+
+    IBaseDialogFragment setKeyEventListener(Dialog.OnKeyListener listener);
 
     @NonNull String getIdentifier();
 
