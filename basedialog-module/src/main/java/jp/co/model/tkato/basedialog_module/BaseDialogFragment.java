@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Button;
 
@@ -56,6 +55,10 @@ public class BaseDialogFragment extends DialogFragment implements IBaseDialogFra
 
     public interface OnRestoreListener<Parent extends FragmentActivity> {
         void onRestore(@NonNull Parent activity, @NonNull IBaseDialogFragment newDialogFragment);
+    }
+
+    public interface OnKeyEventListenr {
+        void onKey(@NonNull IBaseDialogFragment dialogFragment, int keyCode, @NonNull KeyEvent keyEvent);
     }
 
     // endregion enum / interface
@@ -140,10 +143,10 @@ public class BaseDialogFragment extends DialogFragment implements IBaseDialogFra
     @NonNull
     private final Map<String, OnClickListener> listenerMap = new HashMap<>();
 
-    private Dialog.OnKeyListener keyEventListener;
+    private OnKeyEventListenr keyEventListener;
 
     @Override
-    public IBaseDialogFragment setKeyEventListener(Dialog.OnKeyListener listener) {
+    public IBaseDialogFragment setKeyEventListener(OnKeyEventListenr listener) {
         this.keyEventListener = listener;
         return this;
     }
@@ -829,7 +832,7 @@ public class BaseDialogFragment extends DialogFragment implements IBaseDialogFra
     @Override
     public boolean onKey(DialogInterface dialogInterface, int i, KeyEvent keyEvent) {
         if (null != keyEventListener) {
-            keyEventListener.onKey(dialogInterface, i, keyEvent);
+            keyEventListener.onKey(this, i, keyEvent);
         }
         return false;
     }
