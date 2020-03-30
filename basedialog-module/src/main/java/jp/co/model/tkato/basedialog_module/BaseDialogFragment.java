@@ -57,7 +57,7 @@ public class BaseDialogFragment extends DialogFragment implements IBaseDialogFra
         void onRestore(@NonNull Parent activity, @NonNull IBaseDialogFragment newDialogFragment);
     }
 
-    public interface OnKeyEventListenr {
+    public interface OnKeyEventListener {
         void onKey(@NonNull IBaseDialogFragment dialogFragment, int keyCode, @NonNull KeyEvent keyEvent);
     }
 
@@ -143,10 +143,10 @@ public class BaseDialogFragment extends DialogFragment implements IBaseDialogFra
     @NonNull
     private final Map<String, OnClickListener> listenerMap = new HashMap<>();
 
-    private OnKeyEventListenr keyEventListener;
+    private OnKeyEventListener keyEventListener;
 
     @Override
-    public IBaseDialogFragment setKeyEventListener(OnKeyEventListenr listener) {
+    public IBaseDialogFragment setKeyEventListener(OnKeyEventListener listener) {
         this.keyEventListener = listener;
         return this;
     }

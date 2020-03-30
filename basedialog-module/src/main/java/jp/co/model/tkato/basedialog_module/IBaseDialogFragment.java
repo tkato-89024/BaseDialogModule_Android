@@ -7,7 +7,7 @@ import androidx.fragment.app.FragmentActivity;
 @SuppressWarnings({"unused", "UnusedReturnValue"})
 public interface IBaseDialogFragment {
 
-    IBaseDialogFragment setKeyEventListener(BaseDialogFragment.OnKeyEventListenr listener);
+    IBaseDialogFragment setKeyEventListener(BaseDialogFragment.OnKeyEventListener listener);
 
     @NonNull String getIdentifier();
 

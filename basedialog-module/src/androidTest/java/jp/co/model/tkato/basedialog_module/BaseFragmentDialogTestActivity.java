@@ -12,7 +12,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import java.lang.ref.WeakReference;
 
-public class BaseFragmentDialogTestActivity extends FragmentActivity implements BaseDialogFragment.OnClickListener, BaseDialogFragment.OnKeyEventListenr {
+public class BaseFragmentDialogTestActivity extends FragmentActivity implements BaseDialogFragment.OnClickListener, BaseDialogFragment.OnKeyEventListener {
 
     public interface OnRotationListener {
         void notifyRotation(boolean isPortrait);
